@@ -1,30 +1,30 @@
 package gowiki
 
 type Flags struct {
-	html       bool
-	text       bool
-	all        bool
-	limited    bool
-	summary    bool
-	references bool
-	wikilinks  bool
-	clean      bool
-	fancy      bool
+	Html       bool
+	Text       bool
+	All        bool
+	Limited    bool
+	Summary    bool
+	References bool
+	Wikilinks  bool
+	Clean      bool
+	Fancy      bool
 }
 
 func NewFlags() Flags {
 	return Flags{
 		// Raw HTML or tagless string
-		html: false,
-		text: true,
+		Html: false,
+		Text: true,
 		// Which sections to return
-		all:        false,
-		limited:    true,
-		summary:    false,
-		references: false,
-		wikilinks:  false,
+		All:        false,
+		Limited:    true,
+		Summary:    false,
+		References: false,
+		Wikilinks:  false,
 		// Raw string or colored string
-		clean: false,
-		fancy: true,
+		Clean: false,
+		Fancy: true,
 	}
 }
