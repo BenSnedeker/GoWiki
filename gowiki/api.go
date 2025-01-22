@@ -1,64 +1,52 @@
 package gowiki
 
-import (
-	"fmt"
-	"io"
-	"net/http"
-)
+import "fmt"
 
-// -------------
+// ------------
 //    SEARCH
-// -------------
+// ------------
 
-func WikiSearch(query string) (string, error) {
-	// Fetch HTML response
-	htmlResp, err := getSearchResponse(query)
+// Params: Search query as string
+// Return: A list of search results as strings presented by Wikipedia Search API
+func WikiSearch(query string) ([]string, error) {
+	// Get raw search response
+	resp, err := fetchSearchResponse(query)
 	if err != nil {
-		return "", fmt.Errorf("failed to search Wikipedia: %v", err)
+		return nil, fmt.Errorf("failed to fetch search response: %v", err)
 	}
 
-	// Clean HTML into string
-	searchResults, err := CleanSearchHTML(htmlResp)
+	// Parse through search response and return results
+	results, err := parseSearchResponse(resp)
 	if err != nil {
-		return "", fmt.Errorf("failed to clean search results: %v", err)
+		return nil, fmt.Errorf("failed to parse search results: %v", err)
 	}
 
-	return searchResults, nil
+	return results, nil
 }
 
-func getSearchResponse(query string) (string, error) {
-	// Build URL
-	baseURL := "https://en.wikipedia.org/w/api.php"
-	params := fmt.Sprintf("?action=query&list=search&srsearch=%s&format=json", query)
-	fullURL := baseURL + params
+func fetchSearchResponse(query string) (string, error) {
+	// Build API URL
 
-	// Make HTTP GET request to Wikipedia
-	resp, err := http.Get(fullURL)
-	if err != nil {
-		return "", fmt.Errorf("failed to fetch search results: %v", err)
-	}
-	defer resp.Body.Close()
+	// Fetch response
 
-	// Check for non-200 status
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("non-OK HTTP status: %s", resp.Status)
-	}
-
-	// Get response body
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("failed to read response body: %v", err)
-	}
-
-	return string(body), nil
+	return "", nil
 }
 
-// -------------
+func parseSearchResponse(resp string) ([]string, error) {
+	// Split response into individual results
+
+	// Clean each result
+
+	return nil, nil
+}
+
+// ------------
 //     READ
-// -------------
+// ------------
 
-func WikiRead(flags Flags, query string) string {
-	fmt.Printf("Opening article \033[1;34m\"%s\"\033[0m\n", query)
+// Params: Wikipedia article name as string
+// Return: A string of the customized return text content
+func WikiRead(articleName string) (string, error) {
 
-	return "NOT IMPLEMENTED"
+	return "", nil
 }
