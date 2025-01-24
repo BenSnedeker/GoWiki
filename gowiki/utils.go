@@ -31,17 +31,19 @@ const (
 // A flag struct to contain all categories of flags.
 // Each flag category can only have 1 state selected.
 type Flags struct {
-	Term    string
-	Type    ReturnType
-	Content ReturnContent
-	Style   ReturnStyle
+	Term     string
+	Type     ReturnType
+	Content  ReturnContent
+	Style    ReturnStyle
+	Language string
 }
 
 func NewFlags() Flags {
 	return Flags{
-		Term:    "",
-		Type:    ReturnType(Text),
-		Content: ReturnContent(All),
-		Style:   ReturnStyle(Fancy),
+		Term:     "",
+		Type:     ReturnType(Text),
+		Content:  ReturnContent(All),
+		Style:    ReturnStyle(Fancy),
+		Language: "en",
 	}
 }

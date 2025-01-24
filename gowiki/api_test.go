@@ -2,14 +2,19 @@ package gowiki
 
 import "testing"
 
+// ------------------------
+//   TESTS FOR WikiSearch
+// ------------------------
+
 // General testing while the function is being built
 func TestWikiSearch(t *testing.T) {
 	// Establish test flags
 	flags := Flags{
-		Term:    "Gourd",
-		Type:    ReturnType(Text),
-		Content: ReturnContent(All),
-		Style:   ReturnStyle(Fancy),
+		Term:     "Gourd",
+		Type:     ReturnType(Text),
+		Content:  ReturnContent(All),
+		Style:    ReturnStyle(Fancy),
+		Language: "en",
 	}
 
 	// Attempt WikiSearch
@@ -23,20 +28,28 @@ func TestWikiSearch(t *testing.T) {
 	}
 }
 
+// Test WikiSearch for a malformed response (simulate HTTP error or invalid data)
 // Test WikiSearch for an empty Term
-// Test WikiSearch for an HTML search
-// Test WikiSearch for a Text search
-// Test WikiSearch for a non-sense search
+// Test WikiSearch for a valid search term (common term)
+// Test WikiSearch for a non-existent term (nonsense term)
+// Test WikiSearch for a special character term (eg. $ % &)
+// Test WikiSearch for a non-Latin characters (eg. Chinese Arabic Cyrillic)
+// Test WikiSearch for an HTML response
+// Test WikiSearch for a Text response
 // Test WikiSearch for a clean response
 
+// ------------------------
+//    TESTS FOR WikiRead
+// ------------------------
+
+// Test WikiRead for a malformed response (simulate HTTP error or invalid data)
 // Test WikiRead for an empty Term
-// Test WikiRead for an HTML response
-// Test WikiRead for a text response
-// Test WikiRead for a non-sense article
-// Test WikiRead for a suggestion page
+// Test WikiRead for a valid search term (eg. Potato)
+// Test WikiRead for a non-existent article (eg. jfdF34vS)
+// Test WikiRead for a suggestion page (eg. Python)
 // Test WikiRead for All sections
 // Test WikiRead for Limited sections
 // Test WikiRead for Summary section
 // Test WikiRead for References section
-// Test WikiRead for a fancy response
 // Test WikiRead for a clean response
+// Test WikiRead for a fancy response

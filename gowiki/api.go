@@ -30,10 +30,13 @@ func WikiSearch(flags *Flags) ([]string, error) {
 }
 
 func fetchSearchResponse(flags *Flags) (string, error) {
-	// Build API URL
+	// Ensure language code meets ISO 639-1 two-letter standards
+	if len(flags.Language) != 2 {
+		return "", fmt.Errorf("invalid language code: %s", flags.Language)
+	}
 
 	// Base URL to be used
-	baseURL := "https://en.wikipedia.org/w/api.php"
+	baseURL := fmt.Sprintf("https://%s.wikipedia.org/w/api.php", flags.Language)
 
 	// Establish parameters
 	params := url.Values{}
