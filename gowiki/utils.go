@@ -9,6 +9,7 @@ const (
 )
 
 // Choose which sections to return
+// Ignored by WikiSearch
 type ReturnContent int
 
 const (
@@ -19,6 +20,7 @@ const (
 )
 
 // Choose either colorful fancy text or a clean plain string
+// Defaults to Clean on HTML type response
 type ReturnStyle int
 
 const (
@@ -29,7 +31,7 @@ const (
 // A flag struct to contain all categories of flags.
 // Each flag category can only have 1 state selected.
 type Flags struct {
-	Name    string
+	Term    string
 	Type    ReturnType
 	Content ReturnContent
 	Style   ReturnStyle
@@ -37,7 +39,7 @@ type Flags struct {
 
 func NewFlags() Flags {
 	return Flags{
-		Name:    "",
+		Term:    "",
 		Type:    ReturnType(Text),
 		Content: ReturnContent(All),
 		Style:   ReturnStyle(Fancy),
