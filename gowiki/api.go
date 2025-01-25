@@ -1,8 +1,9 @@
 package gowiki
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -13,7 +14,7 @@ import (
 
 // Params: The search query as string
 // Return: A list of search results as strings presented by Wikipedia Search API
-func WikiSearch(flags *Flags) ([]string, error) {
+func WikiSearch(flags *Flags) ([]map[string]string, error) {
 	// Fetch raw search response
 	response, err := fetchSearchResponse(flags)
 	if err != nil {
@@ -61,7 +62,7 @@ func fetchSearchResponse(flags *Flags) (string, error) {
 	}
 
 	// Read the response
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", fmt.Errorf("error reading response body: %v", err)
 	}
@@ -69,13 +70,42 @@ func fetchSearchResponse(flags *Flags) (string, error) {
 	return string(body), nil
 }
 
-func parseSearchResponse(response string) ([]string, error) {
-	// Split response into individual results
+func parseSearchResponse(response string) ([]map[string]string, error) {
+	// Simple struct to unmarshal the JSON responses
+	var parsedData struct {
+		Query struct {
+			Search []struct {
+				Title   string `json:"title"`
+				Snippet string `json:"snippet"`
+			} `json:"search"`
+		} `json:"query"`
+	}
 
-	// Clean each result
+	// Parse the JSON
+	err := json.Unmarshal([]byte(response), &parsedData)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse response: %v", err)
+	}
 
-	return nil, nil
+	// Ensure at least one result
+	if len(parsedData.Query.Search) == 0 {
+		return nil, fmt.Errorf("no results found")
+	}
+
+	// Clean each result into a map
+	var results []map[string]string
+	for _, item := range parsedData.Query.Search {
+		result := map[string]string{
+			"title":   item.Title,
+			"snippet": item.Snippet,
+		}
+		results = append(results, result)
+	}
+
+	return results, nil
 }
+
+// TODO: Clean the HTML tags out of of the responses
 
 // ------------
 //     READ

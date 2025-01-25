@@ -1,6 +1,8 @@
 package gowiki
 
-import "testing"
+import (
+	"testing"
+)
 
 // ------------------------
 //   TESTS FOR WikiSearch
